@@ -14,7 +14,7 @@
     ></a-float-button>
 
     <a-modal v-model:open="open" title="Ingresar valores de las celdas" @ok="handleOk" @cancel="handleCancel" :maskClosable="false">
-      <a-textarea style="font-family: consolas;" v-model:value="texto_formulario" placeholder="ingresar valores" :rows="20" />
+      <a-textarea class="textarea_estilo" v-model:value="texto_formulario" placeholder="ingresar valores" :rows="20" />
     </a-modal>
 
 
@@ -275,6 +275,8 @@ const handleOk = e => {
     console.log(balanceados)
     tableData.splice(0, tableData.length, ...balanceados);
 
+    texto_formulario.value = ""
+
   }
  
 
@@ -342,6 +344,10 @@ table {
 
 table tfoot tr td {
   padding-top: 10px;
+}
+
+.textarea_estilo {
+  font-family: "Consolas", "Menlo", "Monaco", "Courier New", monospace;
 }
 
 
