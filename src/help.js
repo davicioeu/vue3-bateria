@@ -1,4 +1,4 @@
-
+import { onMounted, onUnmounted } from 'vue'
 
 function setStorage(value) {
 
@@ -14,13 +14,31 @@ function getStorage() {
     // Convertir la cadena JSON de nuevo a un array
     const parsedData = JSON.parse(data);
 
-    console.log(parsedData);  // Muestra el array recuperado
+    //console.log(parsedData);  // Muestra el array recuperado
     return parsedData
   } else {
-    console.log('No hay datos guardados.');
+    //console.log('No hay datos guardados.');
     return []
   }
 
 }
 
-export {setStorage, getStorage}
+
+
+function useGlobalKey(callback, key = 'Enter') {
+  const handleKeydown = (event) => {
+    if (event.key === key) {
+      callback(event);
+    }
+  };
+
+  onMounted(() => {
+    window.addEventListener('keydown', handleKeydown);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('keydown', handleKeydown);
+  });
+}
+
+export {setStorage, getStorage, useGlobalKey}

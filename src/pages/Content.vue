@@ -22,7 +22,7 @@
         <tbody>
           <tr v-for="(row, rowIndex) in tableData" :key="rowIndex">
             <td>
-              <a-button danger type="dashed" size="small">{{ rowIndex+1 }}</a-button>
+              <a-button danger type="dashed" size="small" @click="ordenarfila(rowIndex)" :key="rowIndex">{{ rowIndex+1 }}</a-button>
             </td>
             <td>
               
@@ -44,7 +44,7 @@
           <tr>
             <td></td>
             <td>
-              <a-button @click="toggleDisabled()">disabled input</a-button>
+              <a-button @click="toggleDisabled()">disabled input</a-button> | 
               <a-button @click="intercambiarvalores()">intercambiar</a-button>
             </td>
             <td></td>
@@ -58,14 +58,14 @@
 <script setup>
 
 import {reactive, onMounted,onBeforeMount ,watch, ref} from 'vue'
-import {getStorage, setStorage} from '../help'
+import {getStorage, setStorage, useGlobalKey} from '../help'
 
 
 function getInitialData() {
   const savedData = getStorage();
-  console.log(savedData)
+  //console.log(savedData)
   if(savedData.length > 0) {
-    console.log(savedData)
+    //console.log(savedData)
     return savedData
   } else {
     return [
@@ -128,18 +128,40 @@ function poner_activo_estilo(row, column) {
 
 function intercambiarvalores() {
   // Extraer los 2 últimos elementos
-  let enfocos = elementos_enfocos.slice(-2);
-  let ultimos_2 = enfocos.map((el) => {
-    return el.split("-")
-  })
+  //console.log(elementos_enfocos.length)
+  if(elementos_enfocos.length > 1) {
+   
+    let enfocos = elementos_enfocos.slice(-2);
+    let ultimos_2 = enfocos.map((el) => {
+      return el.split("-")
+    })
 
-  let copia_1 = tableData[ultimos_2[0][0]][ultimos_2[0][1]]
-  let copia_2 = tableData[ultimos_2[1][0]][ultimos_2[1][1]]
+    let copia_1 = tableData[ultimos_2[0][0]][ultimos_2[0][1]]
+    let copia_2 = tableData[ultimos_2[1][0]][ultimos_2[1][1]]
 
-  tableData[ultimos_2[1][0]][ultimos_2[1][1]] = copia_1
-  tableData[ultimos_2[0][0]][ultimos_2[0][1]] = copia_2
+    tableData[ultimos_2[1][0]][ultimos_2[1][1]] = copia_1
+    tableData[ultimos_2[0][0]][ultimos_2[0][1]] = copia_2
+
+  }
   
 }
+
+function ordenarfila(row) {
+  //console.log(row)
+  let fila = tableData[row]
+  fila = fila.sort((a, b) => a - b); // Ordena de menor a mayor
+  tableData[row] = fila
+
+}
+
+function hacer_enter() {
+  
+  intercambiarvalores()
+  
+
+}
+
+    useGlobalKey(hacer_enter, 'Enter'); // Detecta la tecla "Enter"
 
 
 
@@ -220,6 +242,10 @@ table {
   }
 
 
+}
+
+table tfoot tr td {
+  padding-top: 10px;
 }
 
 
