@@ -1,19 +1,37 @@
 <template>
   <div id="main">
+   
+    <a-float-button
+      shape="circle"
+      type="primary"
+      :style="{
+        right: '94px',
+        top: '300px'
+      }"
+
+      @click="showModal"
+
+    ></a-float-button>
+
+    <a-modal v-model:open="open" title="Ingresar valores de las celdas" @ok="handleOk" @cancel="handleCancel" :maskClosable="false">
+      <a-textarea style="font-family: consolas;" v-model:value="texto_formulario" placeholder="ingresar valores" :rows="20" />
+    </a-modal>
+
+
     <div class="tablecontent">
 
       <table>
         <thead>
           <tr>
             <td></td>
-            <td>
-              <a-radio-group>
-                <a-radio-button  class="headnumber">1</a-radio-button>
-                <a-radio-button  class="headnumber">2</a-radio-button>
-                <a-radio-button  class="headnumber">3</a-radio-button>
-                <a-radio-button  class="headnumber">4</a-radio-button>
-                <a-radio-button  class="headnumber">5</a-radio-button>
-                <a-radio-button  class="headnumber">6</a-radio-button>
+            <td style="padding-bottom: 5px;">
+              <a-radio-group size="small">
+                <a-radio-button value="a" class="headnumber" >1</a-radio-button>
+                <a-radio-button value="b" class="headnumber" >2</a-radio-button>
+                <a-radio-button value="c" class="headnumber" >3</a-radio-button>
+                <a-radio-button value="d" class="headnumber" >4</a-radio-button>
+                <a-radio-button value="e" class="headnumber" >5</a-radio-button>
+                <a-radio-button value="f" class="headnumber" >6</a-radio-button>
               </a-radio-group>
             </td>
             <td></td>
@@ -22,21 +40,21 @@
         <tbody>
           <tr v-for="(row, rowIndex) in tableData" :key="rowIndex">
             <td>
-              <a-button danger type="dashed" size="small" @click="ordenarfila(rowIndex)" :key="rowIndex">{{ rowIndex+1 }}</a-button>
+              <a-button tabindex="-1" danger type="dashed" size="small" @click="ordenarfila(rowIndex)" :key="rowIndex">{{ rowIndex+1 }}</a-button>
             </td>
-            <td>
+            <td :class="isDisabled ? 'classreadonly': ''">
               
               <a-input-group compact>
-                <a-input-number @focus="handleFocus(rowIndex,0)" :status="poner_activo_estilo(rowIndex,0)" v-model:value="tableData[rowIndex][0]" :readOnly="isDisabled" class="ainputnumber" />
-                <a-input-number @focus="handleFocus(rowIndex,1)" :status="poner_activo_estilo(rowIndex,1)" v-model:value="tableData[rowIndex][1]" :readOnly="isDisabled" class="ainputnumber" />
-                <a-input-number @focus="handleFocus(rowIndex,2)" :status="poner_activo_estilo(rowIndex,2)" v-model:value="tableData[rowIndex][2]" :readOnly="isDisabled" class="ainputnumber" />
-                <a-input-number @focus="handleFocus(rowIndex,3)" :status="poner_activo_estilo(rowIndex,3)" v-model:value="tableData[rowIndex][3]" :readOnly="isDisabled" class="ainputnumber" />
-                <a-input-number @focus="handleFocus(rowIndex,4)" :status="poner_activo_estilo(rowIndex,4)" v-model:value="tableData[rowIndex][4]" :readOnly="isDisabled" class="ainputnumber" />
-                <a-input-number @focus="handleFocus(rowIndex,5)" :status="poner_activo_estilo(rowIndex,5)" v-model:value="tableData[rowIndex][5]" :readOnly="isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,0)" :status="poner_activo_estilo(rowIndex,0)" v-model:value="tableData[rowIndex][0]" :readOnly="isDisabled" :controls="!isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,1)" :status="poner_activo_estilo(rowIndex,1)" v-model:value="tableData[rowIndex][1]" :readOnly="isDisabled" :controls="!isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,2)" :status="poner_activo_estilo(rowIndex,2)" v-model:value="tableData[rowIndex][2]" :readOnly="isDisabled" :controls="!isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,3)" :status="poner_activo_estilo(rowIndex,3)" v-model:value="tableData[rowIndex][3]" :readOnly="isDisabled" :controls="!isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,4)" :status="poner_activo_estilo(rowIndex,4)" v-model:value="tableData[rowIndex][4]" :readOnly="isDisabled" :controls="!isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,5)" :status="poner_activo_estilo(rowIndex,5)" v-model:value="tableData[rowIndex][5]" :readOnly="isDisabled" :controls="!isDisabled" class="ainputnumber" />
               </a-input-group>
               </td>
               <td>
-                <a-button type="primary" class="btn-showresult">{{ getSum(tableData[rowIndex])  }}</a-button>
+                <a-button tabindex="-1" type="primary" class="btn-showresult">{{ getSum(tableData[rowIndex])  }}</a-button>
               </td>
           </tr>
         </tbody>
@@ -44,8 +62,11 @@
           <tr>
             <td></td>
             <td>
-              <a-button @click="toggleDisabled()">disabled input</a-button> | 
-              <a-button @click="intercambiarvalores()">intercambiar</a-button>
+              <a-button tabindex="-1" @click="toggleDisabled()">Bloquear</a-button> | 
+              <a-button tabindex="-1" @click="ordenarceldas()" type="primary" danger>ordenar celdas</a-button> | 
+              <a-button tabindex="-1" @click="intercambiarvalores()">intercambiar valores</a-button> | 
+              
+              <a-tag color="blue">diferencia de: {{  diferenciadevalores }}</a-tag>
             </td>
             <td></td>
           </tr>
@@ -59,6 +80,7 @@
 
 import {reactive, onMounted,onBeforeMount ,watch, ref} from 'vue'
 import {getStorage, setStorage, useGlobalKey} from '../help'
+import {balanceMatrix} from '../../balancear'
 
 
 function getInitialData() {
@@ -117,11 +139,27 @@ function poner_activo_estilo(row, column) {
 
   let enfocos = elementos_enfocos.slice(-2);
 
+  if(enfocos.length > 1) {
+   
+   let ultimos_2 = enfocos.map((el) => {
+     return el.split("-")
+   })
+
+   let copia_1 = tableData[ultimos_2[0][0]][ultimos_2[0][1]]
+   let copia_2 = tableData[ultimos_2[1][0]][ultimos_2[1][1]]
+
+   diferenciadevalores.value = Math.abs((copia_1 - copia_2))
+
+ }
+
   if(enfocos.includes(`${row}-${column}`)) {
     return "warning"
   } else {
     return "default"
   }
+
+
+
 
 }
 
@@ -142,6 +180,10 @@ function intercambiarvalores() {
     tableData[ultimos_2[1][0]][ultimos_2[1][1]] = copia_1
     tableData[ultimos_2[0][0]][ultimos_2[0][1]] = copia_2
 
+    
+    //diferenciadevalores.value = Math.abs((copia_1 - copia_2))
+
+
   }
   
 }
@@ -158,22 +200,51 @@ function hacer_enter() {
   
   intercambiarvalores()
   
+}
+
+useGlobalKey(hacer_enter, 'Enter'); // Detecta la tecla "Enter"
+
+
+function ordenarceldas() {
+
+  // Ordenar las filas por la suma de sus elementos en orden ascendente
+  //let miarray = tableData
+  tableData.sort((a, b) => {
+    const sumaA = a.reduce((acc, num) => acc + num, 0); // Suma de la fila 'a'
+    const sumaB = b.reduce((acc, num) => acc + num, 0); // Suma de la fila 'b'
+    return sumaA - sumaB; // Ordena de menor a mayor
+  });
+
+  console.log(tableData);
+
 
 }
 
-    useGlobalKey(hacer_enter, 'Enter'); // Detecta la tecla "Enter"
+function convertir_array() {
+   // Usar una expresión regular para dividir el texto
+  let los_numeros = texto_formulario.value
+  los_numeros = los_numeros
+        .split(/[\s,;]+/) // Divide por espacios, comas, tabulaciones, punto y coma, etc.
+        .map(num => num.trim()) // Elimina espacios innecesarios alrededor de los números
+        .filter(num => num.length > 0) // Elimina entradas vacías
+        .map(num => parseFloat(num)) // Convierte los valores a números (o parseInt dependiendo del caso)
+    
+    return los_numeros
 
+}
 
 
 const tableData = reactive(getInitialData())
 const isDisabled = ref(false)
 const elementos_enfocos = reactive([])
-const primer_foco = ref([])
-const segundo_foco = ref([])
+const diferenciadevalores = ref(0)
+const texto_formulario = ref("")
+
 
 const toggleDisabled = () => {
   isDisabled.value = !isDisabled.value;
 };
+
 
 
 // Observa el cambio de una propiedad específica o todo el array
@@ -187,6 +258,33 @@ watch(
   },
   { deep: true }
 );
+
+const open = ref(false);
+const showModal = () => {
+  open.value = true;
+}
+
+const handleOk = e => {
+  //console.log(e);
+  open.value = false;
+
+  //console.log(convertir_array())
+  let elementos_parabalancear = convertir_array()
+  if(elementos_parabalancear.length > 0) {
+    let balanceados = balanceMatrix(elementos_parabalancear,16,6)
+    console.log(balanceados)
+    tableData.splice(0, tableData.length, ...balanceados);
+
+  }
+ 
+
+}
+
+const handleCancel = e => {
+
+  console.log("cancel")
+  texto_formulario.value = ""
+}
 
 
 </script>
@@ -208,14 +306,12 @@ table {
 
 }
 
-
-
-.ant-input-number-input[readonly] {
-  cursor: pointer !important;
+.classreadonly {
+  opacity: 0.75;
 }
 
 .headnumber {
-  width: 90px;
+  width: 89.1px;
   text-align: center;
 }
 
