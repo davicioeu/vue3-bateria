@@ -27,16 +27,16 @@
             <td>
               
               <a-input-group compact>
-                <a-input-number @focus="handleFocus(rowIndex,0)" :status="poner_activo_estilo(rowIndex,0)" v-model:value="tableData[rowIndex][0]" :readOnly="isDisabled"  style="width: 90px" />
-                <a-input-number @focus="handleFocus(rowIndex,1)" :status="poner_activo_estilo(rowIndex,1)" v-model:value="tableData[rowIndex][1]" :readOnly="isDisabled" style="width: 90px" />
-                <a-input-number @focus="handleFocus(rowIndex,2)" :status="poner_activo_estilo(rowIndex,2)" v-model:value="tableData[rowIndex][2]" :readOnly="isDisabled" style="width: 90px" />
-                <a-input-number @focus="handleFocus(rowIndex,3)" :status="poner_activo_estilo(rowIndex,3)" v-model:value="tableData[rowIndex][3]" :readOnly="isDisabled" style="width: 90px" />
-                <a-input-number @focus="handleFocus(rowIndex,4)" :status="poner_activo_estilo(rowIndex,4)" v-model:value="tableData[rowIndex][4]" :readOnly="isDisabled" style="width: 90px" />
-                <a-input-number @focus="handleFocus(rowIndex,5)" :status="poner_activo_estilo(rowIndex,5)" v-model:value="tableData[rowIndex][5]" :readOnly="isDisabled" style="width: 90px" />
+                <a-input-number @focus="handleFocus(rowIndex,0)" :status="poner_activo_estilo(rowIndex,0)" v-model:value="tableData[rowIndex][0]" :readOnly="isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,1)" :status="poner_activo_estilo(rowIndex,1)" v-model:value="tableData[rowIndex][1]" :readOnly="isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,2)" :status="poner_activo_estilo(rowIndex,2)" v-model:value="tableData[rowIndex][2]" :readOnly="isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,3)" :status="poner_activo_estilo(rowIndex,3)" v-model:value="tableData[rowIndex][3]" :readOnly="isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,4)" :status="poner_activo_estilo(rowIndex,4)" v-model:value="tableData[rowIndex][4]" :readOnly="isDisabled" class="ainputnumber" />
+                <a-input-number @focus="handleFocus(rowIndex,5)" :status="poner_activo_estilo(rowIndex,5)" v-model:value="tableData[rowIndex][5]" :readOnly="isDisabled" class="ainputnumber" />
               </a-input-group>
               </td>
               <td>
-                <a-button type="primary" style="width: 80px;">{{ getSum(tableData[rowIndex])  }}</a-button>
+                <a-button type="primary" class="btn-showresult">{{ getSum(tableData[rowIndex])  }}</a-button>
               </td>
           </tr>
         </tbody>
@@ -172,17 +172,24 @@ watch(
 
 table {
   border-collapse: separate;
-  border-spacing: 10px 0px; /* Espacio entre filas */
+  border-spacing: 5px 0px; /* Espacio entre filas */
 }
 
 #main {
   display: flex;
   justify-content: center;
+  
 }
 
 .tablecontent {
   margin: 0 auto;
-  
+
+}
+
+
+
+.ant-input-number-input[readonly] {
+  cursor: pointer !important;
 }
 
 .headnumber {
@@ -190,19 +197,30 @@ table {
   text-align: center;
 }
 
-/*
-
-tr:nth-child(even) {
-  background-color: #f2f2f2; 
+.ainputnumber {
+  max-width: 90px;
 }
 
-tr:nth-child(odd) {
-  background-color: #d6d6d6; 
+.btn-showresult {
+  width: 80px;
 }
 
-*/
+@media (max-width: 826px) {
+  .ainputnumber {
+    max-width: 60px;
+  }
 
-.ant-input-number-input[readonly] {
-  cursor: pointer !important;
+  .headnumber {
+    max-width: 60px;
+    text-align: center;
+  }
+
+  .btn-showresult {
+    width: 60px;
+  }
+
+
 }
+
+
 </style>

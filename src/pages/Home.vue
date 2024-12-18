@@ -6,7 +6,7 @@
         <a-breadcrumb-item>Inicio</a-breadcrumb-item>
         <a-breadcrumb-item>Celdas de baterias</a-breadcrumb-item>
       </a-breadcrumb>
-      <div :style="{ background: '#fff', padding: '24px', minHeight: '280px' }">
+      <div class="mi-layout-content">
         
         <Content></Content>
 
@@ -28,24 +28,24 @@ import Content from './Content.vue'
   height: 100vh;
 }
 
-.site-layout-content {
-  min-height: 280px;
-  padding: 24px;
+.mi-layout-content {
   background: #fff;
-}
-#components-layout-demo-top .logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
-}
-.ant-row-rtl #components-layout-demo-top .logo {
-  float: right;
-  margin: 16px 0 16px 24px;
+  padding: 24px;
+  min-height: 280px;
+  min-width: 625px;
 }
 
-[data-theme='dark'] .site-layout-content {
-  background: #141414;
+@media (max-width: 826px) {
+
+  .mi-layout-content {
+    background: #fff;
+    padding: 5px;
+    min-height: 280px;
+    min-width: 625px;
+   }
+
+
 }
+
+
 </style>
