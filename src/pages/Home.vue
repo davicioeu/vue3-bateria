@@ -3,12 +3,12 @@
     
     <a-layout-content style="padding: 0 50px">
       <a-breadcrumb style="margin: 16px 0">
-        <a-breadcrumb-item>Inicio</a-breadcrumb-item>
-        <a-breadcrumb-item>Celdas de baterias</a-breadcrumb-item>
+        <a-breadcrumb-item > <router-link to="/">Home</router-link> </a-breadcrumb-item>
+        <a-breadcrumb-item> <router-link to="/page1">Page1</router-link> </a-breadcrumb-item>
       </a-breadcrumb>
       <div class="mi-layout-content">
         
-        <Content></Content>
+        <router-view></router-view>
 
       </div>
     </a-layout-content>
@@ -18,8 +18,7 @@
   </a-layout>
 </template>
 <script setup>
-import { ref } from 'vue'
-import Content from './Content.vue'
+
 
 </script>
 <style scoped>

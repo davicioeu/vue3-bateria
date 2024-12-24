@@ -65,7 +65,6 @@
               <a-button tabindex="-1" @click="toggleDisabled()">Bloquear</a-button> | 
               <a-button tabindex="-1" @click="ordenarceldas()" type="primary" danger>ordenar celdas</a-button> | 
               <a-button tabindex="-1" @click="intercambiarvalores()">intercambiar valores</a-button> | 
-              
               <a-tag color="blue">diferencia de: {{  diferenciadevalores }}</a-tag>
             </td>
             <td></td>
@@ -220,6 +219,11 @@ function ordenarceldas() {
 
 }
 
+/**
+ * Suma de numeros y devuelve el resultado
+ * @param {number} a - el primer elemento
+ * @returns {array} un array de los datos
+ */
 function convertir_array() {
    // Usar una expresión regular para dividir el texto
   let los_numeros = texto_formulario.value
