@@ -263,6 +263,11 @@ function ordenarceldas() {
   console.log(tableData);
 }
 
+/**
+ * Suma de numeros y devuelve el resultado
+ * @param {number} a - el primer elemento
+ * @returns {array} un array de los datos
+ */
 function convertir_array() {
   // Usar una expresión regular para dividir el texto
   let los_numeros = texto_formulario.value;
